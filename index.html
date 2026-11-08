@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Andrea Sanchez - Catálogo Visual & Galería</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#D4AF37',
+              goldLight: '#F3E5AB',
+              goldDark: '#AA771C',
+              red: '#E53E3E',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+            cursive: ['Great Vibes', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .card-zoom {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+    
+    .card-zoom:hover {
+      transform: translateY(-6px);
+    }
+    
+    .img-zoom {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .card-zoom:hover .img-zoom {
+      transform: scale(1.07);
+    }
+
+    .lightbox-backdrop {
+      backdrop-filter: blur(12px);
+      transition: opacity 0.3s ease;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.05);
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.4);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(212, 175, 55, 0.8);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-white">
+
+  <!-- NAVBAR / HEADER -->
+  <header class="sticky top-0 z-30 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Logo Marca Andrea Sanchez -->
+      <a href="#" class="flex items-center space-x-3 group cursor-pointer">
+        <!-- SVG Monograma 'AS' -->
+        <div class="w-10 h-10 flex-shrink-0">
+          <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow">
+            <defs>
+              <linearGradient id="goldGradientNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#D4AF37" />
+                <stop offset="50%" stop-color="#F3E5AB" />
+                <stop offset="100%" stop-color="#AA771C" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#goldGradientNav)" d="M 100 25 C 60 25 35 48 35 75 C 35 100 60 115 90 115 C 105 115 125 108 135 96 C 125 122 105 142 80 152 C 68 157 58 157 48 153 C 45 151 40 155 42 161 C 45 167 55 172 68 172 C 100 172 130 146 142 110 C 147 98 149 85 149 74 C 149 45 125 25 100 25 Z M 95 102 C 70 102 52 87 52 68 C 52 49 70 36 95 36 C 118 36 133 49 133 68 C 133 73 131 82 126 91 C 116 98 105 102 95 102 Z" />
+            <path fill="url(#goldGradientNav)" d="M 88 56 C 78 56 70 65 70 74 C 70 85 82 90 95 94 C 112 99 123 107 123 122 C 123 139 105 150 86 150 C 73 150 60 144 54 136 C 52 134 48 135 48 139 C 48 144 57 156 75 160 C 82 161 90 161 98 160 C 120 155 136 141 136 121 C 136 104 123 96 107 92 C 94 88 84 84 84 76 C 84 70 90 65 99 65 C 108 65 117 70 122 75 C 124 77 128 75 128 71 C 128 67 120 60 107 57 C 101 56 94 56 88 56 Z" />
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-cursive text-2xl sm:text-3xl text-red-500 font-normal leading-none">
+            Andrea Sanchez
+          </span>
+          <span class="text-[10px] tracking-[0.2em] uppercase text-amber-600 dark:text-amber-400 font-semibold mt-0.5">
+            Fotografía &amp; Catálogo
+          </span>
+        </div>
+      </a>
+
+      <!-- Actions Buttons -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Add Photo Button -->
+        <!--<button onclick="openAddModal()" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md shadow-amber-500/20 transition-all transform active:scale-95">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Agregar Foto</span>-->
+        </button>
+
+        <!-- Favorites Button -->
+        <button id="btn-favorites" onclick="toggleFavoritesFilter()" class="flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 dark:hover:text-red-400 transition-all border border-transparent">
+          <i class="fa-regular fa-heart text-red-500" id="fav-icon-header"></i>
+          <span class="hidden sm:inline">Favoritos</span>
+          <span id="fav-counter" class="ml-1 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">0</span>
+        </button>
+
+        <!-- Dark Mode Toggle -->
+        <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Cambiar Tema">
+          <i class="fa-solid fa-moon dark:hidden"></i>
+          <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PORTADA / HERO SECTION DESTACADA -->
+  <section class="relative py-12 lg:py-16 px-4 bg-gradient-to-b from-amber-500/10 via-transparent to-transparent dark:from-amber-950/20 border-b border-gray-200/60 dark:border-gray-800/60 overflow-hidden">
+    <div class="max-w-5xl mx-auto text-center relative z-10 flex flex-col items-center">
+      
+      <!-- Frame Fotográfico Marca Andrea Sanchez -->
+      <div class="relative group p-6 sm:p-8 rounded-3xl bg-white dark:bg-gray-900 shadow-2xl border border-amber-300/40 dark:border-amber-900/40 max-w-lg w-full mb-8 transition-transform duration-500 hover:scale-[1.01]">
+        <div class="absolute -inset-1 bg-gradient-to-r from-amber-400/30 via-red-500/20 to-amber-600/30 rounded-[2rem] blur-xl opacity-60 group-hover:opacity-90 transition duration-500"></div>
+        
+        <div class="relative flex flex-col items-center">
+          <!-- Text Red Cursive -->
+          <h1 class="font-cursive text-5xl sm:text-7xl text-red-500 font-normal tracking-wide drop-shadow-sm mb-2">
+            Andrea Sanchez
+          </h1>
+
+          <!-- Monograma SVG Central -->
+          <div class="relative w-36 h-36 sm:w-44 sm:h-44 my-2 flex items-center justify-center">
+            <img src="andrea12.png">
+<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-lg">
+              <defs>
+                <linearGradient id="goldGradientHero" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#D4AF37" />
+                  <stop offset="50%" stop-color="#F3E5AB" />
+                  <stop offset="100%" stop-color="#AA771C" />
+                </linearGradient>
+              </defs>
+              <path fill="url(#goldGradientHero)" d="M 100 25 C 60 25 35 48 35 75 C 35 100 60 115 90 115 C 105 115 125 108 135 96 C 125 122 105 142 80 152 C 68 157 58 157 48 153 C 45 151 40 155 42 161 C 45 167 55 172 68 172 C 100 172 130 146 142 110 C 147 98 149 85 149 74 C 149 45 125 25 100 25 Z M 95 102 C 70 102 52 87 52 68 C 52 49 70 36 95 36 C 118 36 133 49 133 68 C 133 73 131 82 126 91 C 116 98 105 102 95 102 Z" />
+              <path fill="url(#goldGradientHero)" d="M 88 56 C 78 56 70 65 70 74 C 70 85 82 90 95 94 C 112 99 123 107 123 122 C 123 139 105 150 86 150 C 73 150 60 144 54 136 C 52 134 48 135 48 139 C 48 144 57 156 75 160 C 82 161 90 161 98 160 C 120 155 136 141 136 121 C 136 104 123 96 107 92 C 94 88 84 84 84 76 C 84 70 90 65 99 65 C 108 65 117 70 122 75 C 124 77 128 75 128 71 C 128 67 120 60 107 57 C 101 56 94 56 88 56 Z" />
+            </svg>
+          </div>
+
+          <p class="text-xs sm:text-sm font-semibold tracking-[0.3em] text-gray-500 dark:text-gray-400 uppercase mt-2">
+            Catálogo & Portafolio Fotográfico
+          </p>
+        </div>
+      </div>
+
+      <!-- Description & Quick Controls -->
+      <h2 class="text-2xl sm:text-4xl font-bold font-heading text-gray-900 dark:text-white mb-3">
+        Galería Visual  &amp; Eventos
+      </h2>
+      <p class="text-gray-600 dark:text-gray-400 max-w-xl text-sm sm:text-base mb-6 leading-relaxed">
+        Explora la colección fotográfica profesional. Filtra por categorías como arte, eventos folclóricos, retratos y naturaleza.
+      </p>
+
+      <a href="#gallery-section" class="inline-flex items-center space-x-2 text-xs font-semibold tracking-widest text-amber-600 dark:text-amber-400 uppercase hover:underline">
+        <span>Explorar Fotografías</span>
+        <i class="fa-solid fa-chevron-down animate-bounce text-xs"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- CONTENIDO PRINCIPAL / GALERÍA -->
+  <main id="gallery-section" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- CONTROLES Y FILTROS -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white dark:bg-gray-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-200/80 dark:border-gray-800">
+      
+      <!-- Categorías -->
+      <div class="flex items-center space-x-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none" id="category-tabs">
+        <!-- Generado dinámicamente -->
+      </div>
+
+      <!-- Buscador y Selector de Vista -->
+      <div class="flex items-center space-x-3 w-full md:w-auto">
+        <!-- Input Buscador -->
+        <div class="relative flex-grow md:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+          <input type="text" id="search-input" placeholder="Buscar fotos, etiquetas..." oninput="handleSearch()" class="w-full pl-10 pr-8 py-2 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500/50 dark:text-white placeholder-gray-400">
+          <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+            <i class="fa-solid fa-xmark text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Botones Cuadrícula / Lista -->
+        <div class="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-xl border border-gray-200 dark:border-gray-700">
+          <button id="btn-view-grid" onclick="setViewMode('grid')" class="p-2 rounded-lg text-sm text-amber-600 dark:text-amber-400 bg-white dark:bg-gray-700 shadow-sm transition-all" title="Vista Cuadrícula">
+            <i class="fa-solid fa-border-all"></i>
+          </button>
+          <button id="btn-view-list" onclick="setViewMode('list')" class="p-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all" title="Vista Lista">
+            <i class="fa-solid fa-list"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje Informativo de Resultados -->
+    <div class="flex justify-between items-center mb-6 text-sm text-gray-500 dark:text-gray-400">
+      <span id="results-count">Cargando fotos...</span>
+      <span id="active-filter-badge" class="hidden text-xs bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 px-2.5 py-1 rounded-full font-medium border border-amber-200 dark:border-amber-800">
+        Filtro activo
+      </span>
+    </div>
+
+    <!-- CONTENEDOR DE LA GALERÍA -->
+    <div id="gallery-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Tarjetas renderizadas dinámicamente -->
+    </div>
+
+    <!-- ESTADO VACÍO -->
+    <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
+      <div class="w-20 h-20 bg-amber-100 dark:bg-amber-950/40 rounded-full flex items-center justify-center text-amber-600 dark:text-amber-400 text-3xl mb-4">
+        <i class="fa-solid fa-image"></i>
+      </div>
+      <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">No se encontraron imágenes</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-sm mb-4">No hay fotos que coincidan con tu búsqueda o filtro seleccionado.</p>
+      <button onclick="resetFilters()" class="px-4 py-2 bg-amber-500 text-white rounded-xl text-xs font-semibold hover:bg-amber-600 transition-colors">
+        Restablecer Filtros
+      </button>
+    </div>
+  </main>
+
+  <!-- MODAL: AGREGAR / CONSTRUIR NUEVA FOTO -->
+  <div id="add-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-800 overflow-hidden transform transition-all">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/50">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-camera text-amber-500"></i>
+          <h3 class="font-bold text-gray-900 dark:text-white text-base font-heading">Agregar Foto al Catálogo</h3>
+        </div>
+        <button onclick="closeAddModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Form Body -->
+      <form id="add-photo-form" onsubmit="handleAddPhotoSubmit(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Título de la Fotografía *</label>
+          <input type="text" id="input-title" required placeholder="Ej: Marinera de Trujillo" class="w-full px-3.5 py-2 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-amber-500 focus:outline-none dark:text-white">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Categoría *</label>
+            <select id="input-category" required class="w-full px-3.5 py-2 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-amber-500 focus:outline-none dark:text-white">
+              <option value="Eventos">Eventos</option>
+              <option value="Naturaleza">Naturaleza</option>
+              <option value="Retratos">Retratos</option>
+              <option value="Arquitectura">Arquitectura</option>
+              <option value="Arte">Arte</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Ubicación / Autor</label>
+            <input type="text" id="input-author" placeholder="Ej: Perú / Andrea Sanchez" class="w-full px-3.5 py-2 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-amber-500 focus:outline-none dark:text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">URL de la Imagen *</label>
+          <input type="url" id="input-url" required placeholder="https://images.unsplash.com/..." class="w-full px-3.5 py-2 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-amber-500 focus:outline-none dark:text-white">
+          <p class="text-[11px] text-gray-400 mt-1">Sugerencia: puedes usar URLs de Unsplash o cualquier enlace directo de imagen.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Descripción</label>
+          <textarea id="input-desc" rows="2" placeholder="Breve descripción o historia detrás de la captura..." class="w-full px-3.5 py-2 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-amber-500 focus:outline-none dark:text-white"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Etiquetas (Separadas por comas)</label>
+          <input type="text" id="input-tags" placeholder="ej: marinera, danza, trujillo, baile" class="w-full px-3.5 py-2 rounded-xl text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-amber-500 focus:outline-none dark:text-white">
+        </div>
+
+        <div class="pt-3 flex justify-end space-x-3 border-t border-gray-200 dark:border-gray-800">
+          <button type="button" onclick="closeAddModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white shadow-md shadow-amber-500/20 transition-all">
+            Guardar en Catálogo
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL LIGHTBOX / VISUALIZADOR -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-2 sm:p-4 bg-black/90 lightbox-backdrop">
+    <div class="relative w-full max-w-5xl bg-gray-900 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh]">
+      
+      <!-- Close Button Mobile -->
+      <button onclick="closeLightbox()" class="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/90 transition-colors md:hidden">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Image Area -->
+      <div class="relative flex-grow bg-black flex items-center justify-center overflow-hidden min-h-[300px] md:min-h-[500px]">
+        <img id="lb-image" src="" alt="" class="max-h-[75vh] md:max-h-[85vh] w-auto object-contain transition-transform duration-300">
+        
+        <!-- Navigation Buttons -->
+        <button onclick="navigateLightbox(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-amber-500 transition-colors">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button onclick="navigateLightbox(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-amber-500 transition-colors">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Info Sidebar -->
+      <div class="w-full md:w-80 bg-gray-900 p-6 flex flex-col justify-between border-t md:border-t-0 md:border-l border-gray-800 overflow-y-auto">
+        <div>
+          <!-- Desktop Close Button -->
+          <div class="hidden md:flex justify-between items-center mb-4">
+            <span id="lb-category" class="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-full border border-amber-800">
+              Categoría
+            </span>
+            <button onclick="closeLightbox()" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+          </div>
+
+          <h3 id="lb-title" class="text-xl font-bold text-white font-heading mb-2">Título de la Foto</h3>
+          <p id="lb-author" class="text-xs text-amber-500 mb-4 font-medium"><i class="fa-solid fa-user-pen mr-1"></i> Andrea Sanchez</p>
+
+          <p id="lb-desc" class="text-sm text-gray-300 mb-6 leading-relaxed">
+            Descripción de la foto...
+          </p>
+
+          <!-- Tags -->
+          <div class="mb-6">
+            <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Etiquetas</h4>
+            <div id="lb-tags" class="flex flex-wrap gap-1.5">
+              <!-- Dynamic tags -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="pt-4 border-t border-gray-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <button id="lb-fav-btn" onclick="toggleLightboxFav()" class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-red-950/40 text-gray-300 hover:text-red-400 transition-colors text-xs font-medium">
+              <i class="fa-regular fa-heart text-red-500" id="lb-fav-icon"></i>
+              <span id="lb-fav-text">Guardar en Favoritos</span>
+            </button>
+
+            <button id="lb-delete-btn" onclick="deleteCurrentPhoto()" class="p-2 rounded-xl bg-gray-800 text-gray-400 hover:text-red-400 hover:bg-red-950/30 transition-colors" title="Eliminar del catálogo">
+              <i class="fa-solid fa-trash-can text-sm"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="font-cursive text-3xl text-red-500 mb-1">Andrea Sanchez</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400 tracking-widest uppercase">Fotografía &amp; Catálogo Visual © 2026</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    // FOTO INICIAL BASE DE DATOS (Incluye la foto de Marinera 101)
+    const initialPhotos = [
+      {
+        id: '1',
+        title: 'Bailarina de Marinera Norteña',
+        category: 'Eventos',
+        author: 'cwss',
+        url: '2.jpg',
+        description: 'Bailarina ejecutando con elegancia la tradicional danza folclórica de la Marinera Norteña peruana con vestuario característico rosa y pañuelo blanco.',
+        tags: ['marinera', 'danza', 'peru', 'folclore', 'eventos', 'cultura'],
+        favorite: true,
+        date: '2026'
+      },
+      {
+        id: '2',
+        title: 'Bailarina',
+        category: 'Eventos',
+        author: 'Andrea Sanchez',
+        url: '19.JPG',
+        description: 'Bailando',
+        tags: ['marinera'],
+        favorite: true,
+        date: '2026'
+      },
+      {
+        id: '3',
+        title: 'Bailarina',
+        category: 'Eventos',
+        author: 'Andrea Sanchez',
+        url: '29.JPG',
+        description: 'Bailando',
+        tags: ['marinera'],
+        favorite: true,
+        date: '2026'
+      },
+{
+        id: '4',
+        title: 'Bailarina',
+        category: 'Eventos',
+        author: 'Andrea Sanchez',
+        url: '33.JPG',
+        description: 'Bailando',
+        tags: ['marinera'],
+        favorite: true,
+        date: '2026'
+      },
+{
+        id: '5',
+        title: 'Bailarina',
+        category: 'Eventos',
+        author: 'Andrea Sanchez',
+        url: '34.JPG',
+        description: 'Bailando',
+        tags: ['marinera'],
+        favorite: true,
+        date: '2026'
+      },
+{
+        id: '6',
+        title: 'Bailarina',
+        category: 'Eventos',
+        author: 'Andrea Sanchez',
+        url: '38.JPEG',
+        description: 'Bailando',
+        tags: ['marinera'],
+        favorite: true,
+        date: '2026'
+      
+      
+      }
+    ];
+
+    // ESTADO GLOBAL DE LA APLICACIÓN
+    let photos = JSON.parse(localStorage.getItem('as_photos')) || initialPhotos;
+    let selectedCategory = 'Todos';
+    let searchQuery = '';
+    let filterFavoritesOnly = false;
+    let viewMode = 'grid'; // 'grid' | 'list'
+    let currentLightboxIndex = -1;
+
+    // INICIALIZACIÓN AL CARGAR PÁGINA
+    window.onload = function() {
+      renderCategoryTabs();
+      renderGallery();
+      updateFavCounter();
+    };
+
+    // GUARDAR EN LOCALSTORAGE
+    function savePhotos() {
+      localStorage.setItem('as_photos', JSON.stringify(photos));
+      updateFavCounter();
+    }
+
+    // ALTERNAR MODO OSCURO / CLARO
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    // CATEGORÍAS DISPONIBLES
+    const categories = ['Todos', 'Eventos', 'Naturaleza', 'Retratos', 'Arquitectura', 'Arte'];
+
+    function renderCategoryTabs() {
+      const container = document.getElementById('category-tabs');
+      container.innerHTML = categories.map(cat => `
+        <button onclick="setCategory('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
+          selectedCategory === cat && !filterFavoritesOnly
+            ? 'bg-amber-500 text-white shadow-md shadow-amber-500/20 font-semibold' 
+            : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+        }">
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    function setCategory(cat) {
+      selectedCategory = cat;
+      filterFavoritesOnly = false;
+      document.getElementById('btn-favorites').classList.remove('bg-red-500', 'text-white');
+      renderCategoryTabs();
+      renderGallery();
+    }
+
+    function toggleFavoritesFilter() {
+      filterFavoritesOnly = !filterFavoritesOnly;
+      const btn = document.getElementById('btn-favorites');
+      if (filterFavoritesOnly) {
+        btn.classList.add('bg-red-500', 'text-white');
+        btn.classList.remove('bg-gray-100', 'dark:bg-gray-800');
+      } else {
+        btn.classList.remove('bg-red-500', 'text-white');
+        btn.classList.add('bg-gray-100', 'dark:bg-gray-800');
+      }
+      renderGallery();
+    }
+
+    // BUSCADOR EN TIEMPO REAL
+    function handleSearch() {
+      const input = document.getElementById('search-input');
+      searchQuery = input.value.toLowerCase().trim();
+      const clearBtn = document.getElementById('clear-search');
+      if (searchQuery.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderGallery();
+    }
+
+    function clearSearch() {
+      document.getElementById('search-input').value = '';
+      searchQuery = '';
+      document.getElementById('clear-search').classList.add('hidden');
+      renderGallery();
+    }
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      const btnGrid = document.getElementById('btn-view-grid');
+      const btnList = document.getElementById('btn-view-list');
+      
+      if (mode === 'grid') {
+        btnGrid.className = 'p-2 rounded-lg text-sm text-amber-600 dark:text-amber-400 bg-white dark:bg-gray-700 shadow-sm transition-all';
+        btnList.className = 'p-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all';
+      } else {
+        btnList.className = 'p-2 rounded-lg text-sm text-amber-600 dark:text-amber-400 bg-white dark:bg-gray-700 shadow-sm transition-all';
+        btnGrid.className = 'p-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all';
+      }
+      renderGallery();
+    }
+
+    // OBTENER FOTOS FILTRADAS
+    function getFilteredPhotos() {
+      return photos.filter(photo => {
+        const matchesCategory = selectedCategory === 'Todos' || photo.category === selectedCategory;
+        const matchesFavorites = !filterFavoritesOnly || photo.favorite;
+        const matchesSearch = searchQuery === '' || 
+          photo.title.toLowerCase().includes(searchQuery) ||
+          photo.description.toLowerCase().includes(searchQuery) ||
+          photo.category.toLowerCase().includes(searchQuery) ||
+          photo.tags.some(t => t.toLowerCase().includes(searchQuery));
+          
+        return matchesCategory && matchesFavorites && matchesSearch;
+      });
+    }
+
+    // RENDERIZAR LA GALERÍA
+    function renderGallery() {
+      const filtered = getFilteredPhotos();
+      const container = document.getElementById('gallery-container');
+      const emptyState = document.getElementById('empty-state');
+      const countEl = document.getElementById('results-count');
+
+      countEl.textContent = `Mostrando ${filtered.length} ${filtered.length === 1 ? 'fotografía' : 'fotografías'}`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+
+      if (viewMode === 'grid') {
+        container.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+        container.innerHTML = filtered.map((photo) => `
+          <div class="card-zoom group relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md border border-gray-200/80 dark:border-gray-800 flex flex-col">
+            <!-- Image Container -->
+            <div class="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800 cursor-pointer" onclick="openLightbox('${photo.id}')">
+              <img src="${photo.url}" alt="${photo.title}" loading="lazy" class="img-zoom w-full h-full object-cover">
+              
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                <span class="text-white text-xs font-semibold flex items-center space-x-1">
+                  <i class="fa-solid fa-expand"></i>
+                  <span>Ver foto completa</span>
+                </span>
+              </div>
+
+              <!-- Badge Categoría -->
+              <span class="absolute top-3 left-3 text-[10px] uppercase font-bold tracking-wider bg-black/60 backdrop-blur-md text-amber-400 px-2.5 py-1 rounded-full border border-amber-500/30">
+                ${photo.category}
+              </span>
+
+              <!-- Botón Favorito Quick -->
+              <button onclick="event.stopPropagation(); toggleFavorite('${photo.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors">
+                <i class="${photo.favorite ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart"></i>
+              </button>
+            </div>
+
+            <!-- Meta Data -->
+            <div class="p-4 flex flex-col flex-grow justify-between">
+              <div>
+                <h3 class="font-bold text-gray-900 dark:text-white text-base font-heading line-clamp-1">${photo.title}</h3>
+                <p class="text-xs text-amber-600 dark:text-amber-400 font-medium mb-2">${photo.author || 'Andrea Sanchez'}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">${photo.description}</p>
+              </div>
+
+              <div class="flex flex-wrap gap-1">
+                ${photo.tags.slice(0, 3).map(tag => `<span class="text-[10px] bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-md">#${tag}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        // Modo Lista
+        container.className = 'flex flex-col space-y-4';
+        container.innerHTML = filtered.map((photo) => `
+          <div class="card-zoom group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-md border border-gray-200/80 dark:border-gray-800 flex flex-col sm:flex-row p-3 gap-4">
+            <div class="relative w-full sm:w-48 aspect-[4/3] sm:aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 cursor-pointer flex-shrink-0" onclick="openLightbox('${photo.id}')">
+              <img src="${photo.url}" alt="${photo.title}" loading="lazy" class="img-zoom w-full h-full object-cover">
+            </div>
+
+            <div class="flex flex-col justify-between flex-grow">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                    ${photo.category}
+                  </span>
+                  <button onclick="toggleFavorite('${photo.id}')" class="text-gray-400 hover:text-red-500 transition-colors">
+                    <i class="${photo.favorite ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart"></i>
+                  </button>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white text-lg font-heading cursor-pointer" onclick="openLightbox('${photo.id}')">${photo.title}</h3>
+                <p class="text-xs text-gray-400 mb-2">${photo.author || 'Andrea Sanchez'}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-3">${photo.description}</p>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex flex-wrap gap-1">
+                  ${photo.tags.map(tag => `<span class="text-[10px] bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md">#${tag}</span>`).join('')}
+                </div>
+                <button onclick="openLightbox('${photo.id}')" class="text-xs text-amber-600 dark:text-amber-400 font-semibold hover:underline">
+                  Ver detalle →
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // MANEJO DE FAVORITOS
+    function toggleFavorite(id) {
+      const photo = photos.find(p => p.id === id);
+      if (photo) {
+        photo.favorite = !photo.favorite;
+        savePhotos();
+        renderGallery();
+      }
+    }
+
+    function updateFavCounter() {
+      const count = photos.filter(p => p.favorite).length;
+      document.getElementById('fav-counter').textContent = count;
+    }
+
+    // MODAL: CONSTRUIR / AGREGAR NUEVA FOTO
+    function openAddModal() {
+      document.getElementById('add-modal').classList.remove('hidden');
+    }
+
+    function closeAddModal() {
+      document.getElementById('add-modal').classList.add('hidden');
+      document.getElementById('add-photo-form').reset();
+    }
+
+    function handleAddPhotoSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('input-title').value;
+      const category = document.getElementById('input-category').value;
+      const author = document.getElementById('input-author').value || 'Andrea Sanchez';
+      const url = document.getElementById('input-url').value;
+      const description = document.getElementById('input-desc').value || 'Fotografía añadida al catálogo.';
+      const tagsInput = document.getElementById('input-tags').value;
+      
+      const tags = tagsInput 
+        ? tagsInput.split(',').map(t => t.trim().toLowerCase()).filter(t => t.length > 0)
+        : [category.toLowerCase()];
+
+      const newPhoto = {
+        id: Date.now().toString(),
+        title,
+        category,
+        author,
+        url,
+        description,
+        tags,
+        favorite: false,
+        date: new Date().getFullYear().toString()
+      };
+
+      photos.unshift(newPhoto);
+      savePhotos();
+      closeAddModal();
+      renderGallery();
+    }
+
+    // MODAL: LIGHTBOX
+    function openLightbox(id) {
+      const filtered = getFilteredPhotos();
+      const index = filtered.findIndex(p => p.id === id);
+      if (index !== -1) {
+        currentLightboxIndex = index;
+        updateLightboxContent();
+        document.getElementById('lightbox-modal').classList.remove('hidden');
+      }
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox-modal').classList.add('hidden');
+      currentLightboxIndex = -1;
+    }
+
+    function updateLightboxContent() {
+      const filtered = getFilteredPhotos();
+      if (currentLightboxIndex < 0 || currentLightboxIndex >= filtered.length) return;
+
+      const photo = filtered[currentLightboxIndex];
+      document.getElementById('lb-image').src = photo.url;
+      document.getElementById('lb-title').textContent = photo.title;
+      document.getElementById('lb-category').textContent = photo.category;
+      document.getElementById('lb-author').innerHTML = `<i class="fa-solid fa-user-pen mr-1"></i> ${photo.author || 'Andrea Sanchez'}`;
+      document.getElementById('lb-desc').textContent = photo.description;
+
+      const tagsContainer = document.getElementById('lb-tags');
+      tagsContainer.innerHTML = photo.tags.map(t => `<span class="text-[11px] bg-gray-800 text-amber-400 px-2.5 py-1 rounded-md">#${t}</span>`).join('');
+
+      // Fav button state
+      const favIcon = document.getElementById('lb-fav-icon');
+      const favText = document.getElementById('lb-fav-text');
+      if (photo.favorite) {
+        favIcon.className = 'fa-solid fa-heart text-red-500';
+        favText.textContent = 'En Favoritos';
+      } else {
+        favIcon.className = 'fa-regular fa-heart text-red-500';
+        favText.textContent = 'Guardar en Favoritos';
+      }
+    }
+
+    function navigateLightbox(direction) {
+      const filtered = getFilteredPhotos();
+      if (filtered.length === 0) return;
+      currentLightboxIndex = (currentLightboxIndex + direction + filtered.length) % filtered.length;
+      updateLightboxContent();
+    }
+
+    function toggleLightboxFav() {
+      const filtered = getFilteredPhotos();
+      if (currentLightboxIndex >= 0 && currentLightboxIndex < filtered.length) {
+        const photo = filtered[currentLightboxIndex];
+        toggleFavorite(photo.id);
+        updateLightboxContent();
+      }
+    }
+
+    function deleteCurrentPhoto() {
+      const filtered = getFilteredPhotos();
+      if (currentLightboxIndex >= 0 && currentLightboxIndex < filtered.length) {
+        const photo = filtered[currentLightboxIndex];
+        if (confirm(`¿Estás seguro de eliminar "${photo.title}" del catálogo?`)) {
+          photos = photos.filter(p => p.id !== photo.id);
+          savePhotos();
+          closeLightbox();
+          renderGallery();
+        }
+      }
+    }
+
+    function resetFilters() {
+      selectedCategory = 'Todos';
+      searchQuery = '';
+      filterFavoritesOnly = false;
+      document.getElementById('search-input').value = '';
+      document.getElementById('btn-favorites').classList.remove('bg-red-500', 'text-white');
+      renderCategoryTabs();
+      renderGallery();
+    }
+
+    // Atajos de teclado para Lightbox
+    window.addEventListener('keydown', (e) => {
+      const lb = document.getElementById('lightbox-modal');
+      if (!lb.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+      }
+    });
+  </script>
+</body>
+</html>
